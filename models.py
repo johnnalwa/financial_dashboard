@@ -1,4 +1,4 @@
-from app import db
+from extensions import db
 from datetime import datetime
 
 class User(db.Model):
@@ -33,7 +33,7 @@ class Forecast(db.Model):
     prediction = db.Column(db.Float, nullable=False)
     confidence_interval_low = db.Column(db.Float)
     confidence_interval_high = db.Column(db.Float)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)    
     
     def __repr__(self):
-        return f'<Forecast {self.company_id} {self.metric} {self.forecast_date}>'   
+        return f'<Forecast {self.company_id} {self.metric} {self.forecast_date}>'
