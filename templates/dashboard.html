@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>Financial Dashboard</h2>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Recent Earnings Call Transcripts</h5>
+            </div>
+            <div class="card-body">
+                {% if transcripts %}
+                    <div class="list-group">
+                        {% for transcript in transcripts %}
+                            <a href="/transcript/{{ transcript.id }}" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">{{ transcript.company_name }} ({{ transcript.ticker }})</h5>
+                                    <small>{{ transcript.call_date.strftime('%Y-%m-%d') }}</small>
+                                </div>
+                                <p class="mb-1">{{ transcript.quarter }} {{ transcript.year }}</p>
+                                <small>Sentiment: 
+                                    {% if transcript.sentiment_score > 0.05 %}
+                                        <span class="text-success">Positive ({{ "%.2f"|format(transcript.sentiment_score) }})</span>
+                                    {% elif transcript.sentiment_score < -0.05 %}
+                                        <span class="text-danger">Negative ({{ "%.2f"|format(transcript.sentiment_score) }})</span>
+                                    {% else %}
+                                        <span class="text-secondary">Neutral ({{ "%.2f"|format(transcript.sentiment_score) }})</span>
+                                    {% endif %}
+                                </small>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>No recent transcripts available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Upload Earnings Call Transcript</h5>
+            </div>
+            <div class="card-body">
+                <form id="transcript-form">
+                    <div class="mb-3">
+                        <label for="company-name" class="form-label">Company Name</label>
+                        <input type="text" class="form-control" id="company-name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ticker" class="form-label">Ticker Symbol</label>
+                        <input type="text" class="form-control" id="ticker" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="quarter" class="form-label">Quarter</label>
+                                <select class="form-control" id="quarter" required>
+                                    <option value="Q1">Q1</option>
+                                    <option value="Q2">Q2</option>
+                                    <option value="Q3">Q3</option>
+                                    <option value="Q4">Q4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="year" class="form-label">Year</label>
+                                <input type="number" class="form-control" id="year" value="2025" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="call-date" class="form-label">Call Date</label>
+                                <input type="date" class="form-control" id="call-date" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="transcript-text" class="form-label">Transcript Text</label>
+                        <textarea class="form-control" id="transcript-text" rows="10" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Process Transcript</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4" id="processing-result" style="display: none;">
+    <div class="card">
+        <div class="card-header">
+            <h5>Processing Result</h5>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <h5>Summary</h5>
+                <p id="summary-text"></p>
+            </div>
+            <div class="mb-3">
+                <h5>Sentiment Analysis</h5>
+                <p id="sentiment-text"></p>
+            </div>
+            <a id="view-full-link" href="#" class="btn btn-secondary">View Full Details</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
