@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import logging
 import json
 import requests
-from app import db
+from extensions import db
 from models import Forecast
 from services.api_service import AIModelService
 from config import AI_API_BASE_URL, AI_API_KEY

@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 
+{% block title %}Dashboard | Financial Dashboard{% endblock %}
+
 {% block content %}
-<h2>Financial Dashboard</h2>
+<h2 class="mb-4">Financial Dashboard</h2>
 
 <div class="row mt-4">
     <div class="col-md-6">
@@ -11,24 +13,19 @@
             </div>
             <div class="card-body">
                 {% if transcripts %}
-                    <div class="list-group">
+                    <div class="row">
                         {% for transcript in transcripts %}
-                            <a href="/transcript/{{ transcript.id }}" class="list-group-item list-group-item-action">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">{{ transcript.company_name }} ({{ transcript.ticker }})</h5>
-                                    <small>{{ transcript.call_date.strftime('%Y-%m-%d') }}</small>
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ transcript.company_name }} ({{ transcript.ticker }})</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">{{ transcript.quarter }} {{ transcript.year }}</h6>
+                                        <p class="card-text small">{{ transcript.summary[:120] }}{% if transcript.summary|length > 120 %}...{% endif %}</p>
+                                        <span class="badge bg-info">Sentiment: {{ transcript.sentiment_score }}</span>
+                                        <a href="/transcript/{{ transcript.id }}" class="btn btn-primary btn-sm float-end">View Details</a>
+                                    </div>
                                 </div>
-                                <p class="mb-1">{{ transcript.quarter }} {{ transcript.year }}</p>
-                                <small>Sentiment: 
-                                    {% if transcript.sentiment_score > 0.05 %}
-                                        <span class="text-success">Positive ({{ "%.2f"|format(transcript.sentiment_score) }})</span>
-                                    {% elif transcript.sentiment_score < -0.05 %}
-                                        <span class="text-danger">Negative ({{ "%.2f"|format(transcript.sentiment_score) }})</span>
-                                    {% else %}
-                                        <span class="text-secondary">Neutral ({{ "%.2f"|format(transcript.sentiment_score) }})</span>
-                                    {% endif %}
-                                </small>
-                            </a>
+                            </div>
                         {% endfor %}
                     </div>
                 {% else %}

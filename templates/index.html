@@ -1,38 +1,11 @@
-{% extends "layout.html" %}
-
+{% extends 'layout.html' %}
+{% block title %}Welcome | Financial Dashboard{% endblock %}
 {% block content %}
-<div class="jumbotron">
-    <h1 class="display-4">Financial Insights & Forecasting Dashboard</h1>
-    <p class="lead">Real-time earnings call transcript summarization and financial forecasting</p>
-    <hr class="my-4">
-    <p>Access powerful financial insights and forecasts with our advanced AI-powered dashboard.</p>
-    <a class="btn btn-primary btn-lg" href="/dashboard" role="button">Go to Dashboard</a>
-</div>
-
-<div class="row mt-5">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Earnings Call Transcripts</h5>
-                <p class="card-text">Get summaries and sentiment analysis of the latest earnings calls.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Financial Forecasting</h5>
-                <p class="card-text">AI-powered forecasting for key financial metrics.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Real-time Insights</h5>
-                <p class="card-text">Stay updated with the latest financial trends and predictions.</p>
-            </div>
-        </div>
-    </div>
+<div class="row justify-content-center align-items-center" style="min-height: 60vh;">
+  <div class="col-md-8 text-center">
+    <h1 class="display-4 mb-3">Welcome to FinDash</h1>
+    <p class="lead mb-4">Analyze, visualize, and forecast company financials with ease.</p>
+    <a href="/dashboard" class="btn btn-primary btn-lg">Go to Dashboard</a>
+  </div>
 </div>
 {% endblock %}
